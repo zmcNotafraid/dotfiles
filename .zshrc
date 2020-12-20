@@ -1,13 +1,19 @@
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
-
 # Path to your oh-my-zsh installation.
 export ZSH=/Users/zmcNotafraid/.oh-my-zsh
 
 # Set name of the theme to load. Optionally, if you set this to "random"
 # it'll load a random theme each time that oh-my-zsh is loaded.
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
-ZSH_THEME="robbyrussell"
+ZSH_THEME="powerlevel10k/powerlevel10k"
 
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
@@ -47,6 +53,9 @@ MAILCHECK=0
 # Would you like to use another custom folder than $ZSH/custom?
 # ZSH_CUSTOM=/path/to/new-custom-folder
 
+# Set history size
+SAVEHIST=5000
+
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
@@ -60,7 +69,8 @@ source $ZSH/oh-my-zsh.sh
 # export MANPATH="/usr/local/man:$MANPATH"
 
 # You may need to manually set your language environment
-# export LANG=en_US.UTF-8
+export LANG=en_US.UTF-8
+export LC_ALL=en_US.UTF-8
 
 # Preferred editor for local and remote sessions
 # if [[ -n $SSH_CONNECTION ]]; then
@@ -68,7 +78,7 @@ source $ZSH/oh-my-zsh.sh
 # else
 #   export EDITOR='mvim'
 # fi
-
+export EDITOR='vim'
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
 
@@ -83,16 +93,10 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
-alias gitx="/Applications/GitX.app/Contents/Resources/gitx"
 alias vi=vim
 alias redis_path="cd /usr/local/var/db/redis"
+alias aria2_cli="aria2c --conf-path='/Users/zmcNotafraid/.aria2/aria2.conf' -D"
 
-alias cleos_ny="cleos -v -u http://api.eosnewyork.io --wallet-url=http://127.0.0.1:8899"
-alias cleos_qa="cleos -u http://10.101.0.1:8053 --wallet-url=http://127.0.0.1:8899"
-
-alias nodeos_local="nodeos --config-dir test_eos_data  --data-dir test_eos_data"
-alias cleos_local="cleos --url=http://localhost:6666 --wallet-url=http://127.0.0.1:6666"
-export PATH="/usr/local/eosio/bin:$PATH"
 # [ -f /usr/local/etc/profile.d/autojump.sh ] && . /usr/local/etc/profile.d/autojump.sh
 #  This loads nvm
 export NVM_DIR="$HOME/.nvm"
@@ -100,11 +104,7 @@ export NVM_DIR="$HOME/.nvm"
 # autojump插件
 [[ -s ~/.autojump/etc/profile.d/autojump.sh ]] && . ~/.autojump/etc/profile.d/autojump.sh
 # rbenv
-export PATH="$HOME/.rbenv/bin:$PATH"
 eval "$(rbenv init -)"
-# rabbitmq
-export PATH="/usr/local/sbin:$PATH"
-export TERM=xterm-256color
 # elixir
 export PATH="$PATH:/usr/local/Cellar/elixir/1.6.0/bin"
 # gettext
@@ -112,36 +112,29 @@ export PATH=${PATH}:/usr/local/opt/gettext/bin
 # android
 export PATH="$HOME/Library/Android/sdk/tools:$PATH"
 export PATH="$HOME/Library/Android/sdk/platform-tools:$PATH"
-# EOS
-export BINARYEN_ROOT=~/EOS/binaryen
-export WASM_LLVM_CONFIG=~/EOS/wasm-compiler/llvm/bin/llvm-config
-export LLVM_DIR=/usr/local/Cellar/llvm/4.0.1/lib/cmake/llvm
-export OPENSSL_ROOT_DIR=/usr/local/Cellar/openssl/1.0.2k
-export SSL_CERT_FILE=/usr/local/etc/openssl/cert.pem
 #flex
 export PATH="/usr/local/opt/flex/bin:$PATH"
 #mongod
 export PATH="/usr/local/opt/mongodb/bin:$PATH"
-export PATH="/usr/local/opt/postgresql@9.6/bin:$PATH"
 #rust
-export PATH="$HOME/.cargo/bin:$PATH"
-function gitdelete() {
-  git branch -D "$*";
-  git push origin --delete "$*";
-}
-function grbuq() {
-  git fetch upstream qa;
-  git rebase upstream/qa;
-}
-function grbup() {
-  git fetch upstream production;
-  git rebase upstream/production;
-}
-function gmup() {
-  git fetch upstream production;
-  git merge upstream/production;
-}
-function gwip() {
-  git add .;
-  git commit -m "WIP";
-}
+export PATH="/.cargo/bin:$PATH"
+# aws
+export PATH="$HOME/Library/Python/3.7/bin:$PATH"
+# nervos
+export PATH="/Users/zmcNotafraid/bin:$PATH"
+
+# deploy
+{ eval "$(ssh-agent -s)"; ssh-add -A; } &>/dev/null
+
+# tabtab source for serverless package
+# uninstall by removing these lines or running `tabtab uninstall serverless`
+[[ -f /Users/zmcNotafraid/.nvm/versions/node/v10.16.3/lib/node_modules/serverless/node_modules/tabtab/.completions/serverless.zsh ]] && . /Users/zmcNotafraid/.nvm/versions/node/v10.16.3/lib/node_modules/serverless/node_modules/tabtab/.completions/serverless.zsh
+# tabtab source for sls package
+# uninstall by removing these lines or running `tabtab uninstall sls`
+[[ -f /Users/zmcNotafraid/.nvm/versions/node/v10.16.3/lib/node_modules/serverless/node_modules/tabtab/.completions/sls.zsh ]] && . /Users/zmcNotafraid/.nvm/versions/node/v10.16.3/lib/node_modules/serverless/node_modules/tabtab/.completions/sls.zsh
+# tabtab source for slss package
+# uninstall by removing these lines or running `tabtab uninstall slss`
+[[ -f /Users/zmcNotafraid/.nvm/versions/node/v10.16.3/lib/node_modules/serverless/node_modules/tabtab/.completions/slss.zsh ]] && . /Users/zmcNotafraid/.nvm/versions/node/v10.16.3/lib/node_modules/serverless/node_modules/tabtab/.completions/slss.zsh
+
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh

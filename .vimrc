@@ -1,35 +1,35 @@
-" --------------------Vundle------------------------
-set nocompatible              " be iMproved, required
-filetype off                  " required
+" --------------------vim-plug------------------------
+if empty(glob('~/.vim/autoload/plug.vim'))
+  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
+call plug#begin('~/.vim/plugged')
+Plug 'VundleVim/Vundle.vim'
+Plug 'Yggdroot/indentLine'
+Plug 'mileszs/ack.vim'
+Plug 'preservim/nerdtree'
+Plug 'scrooloose/nerdcommenter'
 
-set rtp+=~/.vim/bundle/Vundle.vim
-set runtimepath^=~/.vim/bundle/ctrlp.vim
-call vundle#begin()
-
-Plugin 'VundleVim/Vundle.vim'
-Plugin 'Yggdroot/indentLine'
-Plugin 'vim-ruby/vim-ruby'
-Plugin 'tpope/vim-rails'
-Plugin 'scrooloose/nerdtree'
-Plugin 'scrooloose/nerdcommenter'
-Plugin 'elixir-editors/vim-elixir'
-Plugin 'slashmili/alchemist.vim'
-
-call vundle#end()            " required
-filetype plugin indent on    " required
-" --------------------pathogen------------------------
-execute pathogen#infect()
-" Enable syntax highlighting
-syntax on
-filetype plugin indent on
-
-autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+Plug 'rust-lang/rust.vim'
+Plug 'thoughtbot/vim-rspec'
+Plug 'slashmili/alchemist.vim'
+Plug 'elixir-editors/vim-elixir'
+Plug 'chemzqm/wxapp.vim'
+Plug 'vim-ruby/vim-ruby'
+Plug 'tpope/vim-rails'
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'mustache/vim-mustache-handlebars'
+call plug#end()
 " --------------------system------------------------
-"cd ~/.vim/bundle && git clone https://github.com/rking/ag.vim
-set runtimepath^=~/.vim/bundle/ag
+"  automatic open tree
+autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+
+" Ag
 let g:ackprg = 'ag --nogroup --nocolor --column'
-"cd ~/.vim/bundle && git clone git://github.com/altercation/vim-colors-solarized.git
 syntax enable
+
+" Color
 set background=dark
 let g:solarized_termcolors=256
 let g:solarized_termtrans=1
@@ -69,6 +69,7 @@ let mapleader = ","
 map <Leader>t :NERDTree<CR>
 map <C-E> :MRU<CR>
 map <Leader>a :YRShow<CR>
+map <Leader>c :call RunCurrentSpecFile()<CR>
 " Use the Solarized Dark theme
 set background=dark
 colorscheme solarized
